@@ -9,10 +9,13 @@ project.group = "jayo.arb.learn_j"
 
 val ROOT_PROJECT_NAME = project.rootProject.name
     .replace( Regex("[ .-]+"), "_" );
-
+val MODULE_NAME = "${project.group}.${ROOT_PROJECT_NAME}.${project.name}";
 project.application {
     this.mainClass.set(
-        "${project.group}.${ROOT_PROJECT_NAME}.${project.name}.MainExe"
+        "${MODULE_NAME}.MainExe"
+    )
+    this.mainModule.set(
+        MODULE_NAME
     )
 }
 
