@@ -26,16 +26,19 @@ public class MergeSort<T extends Comparable< ? super T>> implements Comparable<M
 
     /**
      *
-     * @param otherMergeSort
-     * @return n = -1 if LHS len is Less than RHS len, on another hand, if it is Greater than, then n = 1.
-     * If both have the same len and content then n = 0, even though un-orderly.
-     * If n>1 then it means there are number of subset item found on both items, however,
-     * it should be noted that to get the proper number of subset item
-     * do operation (n-1).
+     * @param otherMergeSort RHS object
+     *
+     * @return
+     *  n = -1 LHS len < RHS len. <br>
+     *  n = 1 LHS len > RHS len. <br>
+     *  n = 0 LHS len == RHS len or the same state and they have the same content. <br>
+     *  n = -2 LHS len == RHS len but they don't have the same content according to there order [strict mode enable]. <br>
+     *  n > 1 LHS len == RHS len, they don't have the same content, but they do have a number 'n-1' subset(s). [strict mode disable]. <br>
      *
      * @note
-     *      LHS len = null | 0, RHS len = null | 0. Will provide n = 0.
-     *      This method is not in strict mode.
+     *      If both LHS and RHS contain either null or an empty state the output n = 0. <br>
+     *      If n > 1, LHS and RHS len are equal but do not have the same content, however, a subset is found to
+     *      get the said subset we should do this operation (n = n-1) or (n-=1).
      *
      * @link {@code jayo.arb.learn_j.learn_java_algorithm_lib.sort.merge.MergeSort<T>.compareTo( MergeSort<T>, boolean )int }
      */
@@ -47,23 +50,27 @@ public class MergeSort<T extends Comparable< ? super T>> implements Comparable<M
 
     /**
      *
-     * @param otherMergeSort
-     * @return n = -1 if LHS len is Less than RHS len, on another hand, if it is Greater than, then n = 1.
-     * If both have the same len and content then n = 0, even though un-orderly.
-     * If n>1 then it means there are number of subset item found on both items, however,
-     * it should be noted that to get the proper number of subset item
-     * do operation (n-1). If exactly n=-2 it meant they have the same len but not equal, and this will only
-     * invoke if 'isStrict == true'
+     * @param otherMergeSort RHS object
+     * @param isStrict TRUE if we matter the indices order, otherwise, FALSE it compare regardless its order.
      *
-     * @Note: LHS len = null | 0, RHS len = null | 0. Will provide n = 0
+     * @return
+     *  n = -1 LHS len < RHS len. <br>
+     *  n = 1 LHS len > RHS len. <br>
+     *  n = 0 LHS len == RHS len or the same state and they have the same content. <br>
+     *  n = -2 LHS len == RHS len but they don't have the same content according to there order [strict mode enable]. <br>
+     *  n > 1 LHS len == RHS len, they don't have the same content, but they do have a number 'n-1' subset(s). [strict mode disable]. <br>
+     *
+     * @note
+     *      If both LHS and RHS contain either null or an empty state the output n = 0. <br>
+     *      If n > 1, LHS and RHS len are equal but do not have the same content, however, a subset is found to
+     *      get the said subset we should do this operation (n = n-1) or (n-=1).
      */
     //REM: TODO-HERE; handle the boilerplate
     public int compareTo( MergeSort<T> otherMergeSort, boolean isStrict ) {
-
         if( otherMergeSort == null ) {
             if( this.items.length > 0 )
-                return 1;
-            return 0;
+                return Compare.GREATER_THAN.CODE;
+            return Compare.EQUAL.CODE; //REM: They both have null or empty array.
         }
 
         int thisItemLen = this.items.length;
@@ -100,10 +107,11 @@ public class MergeSort<T extends Comparable< ? super T>> implements Comparable<M
                     if( this.items[i].toString().compareTo( otherMergeSort.items[i].toString() ) != 0 )
                         return Compare.NOT_EQUAL.CODE; //REM: !TODO-HERE; [NE], only invoke if isStrict == true.
                 }
+                return Compare.EQUAL.CODE;
             }
         }
 
-        //REM: !TODO-HERE: either n=0 [EQ] or n>1 [#SUBSET ITEM (n-1)] or n=-2 [NE (only invoke if isStrict == true)]
+        //REM: !TODO-HERE: either n=0 [EQ] or n>1 [#SUBSET ITEM (n-1)]
         return thisItemLen >= 1 ? thisItemLen + 1 : Compare.EQUAL.CODE;
     }
 
