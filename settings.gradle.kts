@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+import java.util.Date;
 
 settings.rootProject.name = "learn-java-algorithm"
 println(String.format("Gradle Version: %s, %s", settings.gradle.gradleVersion,
@@ -21,10 +23,13 @@ settings.gradle.settingsEvaluated {
 }
 
 settings.gradle.projectsEvaluated {
+
     this.allprojects {
+
         if( JAVA_PLUGIN_IDS.any { javaPluginId ->
             this.project.plugins.hasPlugin( javaPluginId )
         }) {
+
             val SOURCE_SETS_EXTENSION: SourceSetContainer =
                 this.project.extensions.getByType<SourceSetContainer>();
 
@@ -48,6 +53,52 @@ settings.gradle.projectsEvaluated {
                         this.setSrcDirs( listOf( "src/test/resources/" ) );
                         this.setExcludes( listOf( "src/test/"))
                     }
+                }
+            }
+
+            this.project.tasks.withType<Jar>() {
+                this.manifest.attributes["whoami"] = "jayo.arb"
+                this.manifest {
+                    attributes["Name"] = attributes["Name"]
+                        .takeIf { it.toString().isNotBlank() }
+                        ?: archiveFileName
+                    attributes["Built-By"] = attributes["Built-By"]
+                        .takeIf { it.toString().isNotBlank() }
+                        ?: (
+                            project.providers.gradleProperty("project.group.name")
+                            .orNull?.takeIf { it.isNotBlank() }
+                            ?: "jayo.arb.learn-j"
+                        ).split(".").reversed().joinToString(" ")
+                    attributes["Build-Time"] = attributes["Build-Time"]
+                        .takeIf { it.toString().isNotBlank() }
+                        ?: SimpleDateFormat("yyyy-MM-dd h:mm:ss-a").format(Date())
+                    attributes["Description"] = attributes["Description"]
+                        .takeIf { it.toString().isNotBlank() }
+                        ?: "n/a"
+                    attributes["Implementation-Vendor"] = attributes["Implementation-Vendor"]
+                        .takeIf { it.toString().isNotBlank() }
+                        ?: project.providers.gradleProperty("project.group.name")
+                            .orNull?.takeIf { it.isNotBlank() }
+                        ?: "jayo.arb.learn-j"
+                    attributes["Implementation-Title"] = attributes["Implementation-Title"]
+                        .takeIf { it.toString().isNotBlank() }
+                        ?: archiveBaseName
+                    attributes["Implementation-Version"] = attributes["Implementation-Version"]
+                        .takeIf { it.toString().isNotBlank() }
+                        ?: project.version
+                    attributes["Specification-Vendor"] = attributes["Specification-Vendor"]
+                        .takeIf { it.toString().isNotBlank() }
+                        ?: "${
+                            project.providers.gradleProperty("project.group.name")
+                                .orNull.takeIf { !it.isNullOrBlank() }
+                            ?: "jayo.arb.learn-j"
+                        }, learn more, do more."
+                    attributes["Specification-Title"] = attributes["Specification-Title"]
+                        .takeIf { it.toString().isNotBlank() }
+                        ?: "${archiveBaseName.get()}, practice makes perfect"
+                    attributes["Specification-Version"] = attributes["Specification-Version"]
+                        .takeIf { it.toString().isNotBlank() }
+                        ?: "${project.version}, unending versions of triumph"
                 }
             }
         }

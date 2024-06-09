@@ -1,4 +1,4 @@
-package jayo.arb.learn_j.learn_java_algorithm.lib.sort.merge;
+package jayo.arb.learn_j.learn_java_algorithm_lib.sort.merge;
 
 
 import java.util.Arrays;
@@ -37,7 +37,7 @@ public class MergeSort<T extends Comparable< ? super T>> implements Comparable<M
      *      LHS len = null | 0, RHS len = null | 0. Will provide n = 0.
      *      This method is not in strict mode.
      *
-     * @link {@code jayo.arb.learn_j.learn_java_algorithm.lib.sort.merge.MergeSort<T>.compareTo( MergeSort<T>, boolean )int }
+     * @link {@code jayo.arb.learn_j.learn_java_algorithm_lib.sort.merge.MergeSort<T>.compareTo( MergeSort<T>, boolean )int }
      */
     //REM: TODO-HERE; handle the boilerplate
     @Override

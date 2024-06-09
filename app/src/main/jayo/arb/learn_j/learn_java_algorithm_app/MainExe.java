@@ -1,7 +1,7 @@
-package jayo.arb.learn_j.learn_java_algorithm.app;
+package jayo.arb.learn_j.learn_java_algorithm_app;
 
-import jayo.arb.learn_j.learn_java_algorithm.lib.sort.merge.MergeSort;
-import jayo.arb.learn_j.learn_java_algorithm.lib.sort.merge.Strict;
+import jayo.arb.learn_j.learn_java_algorithm_lib.sort.merge.MergeSort;
+import jayo.arb.learn_j.learn_java_algorithm_lib.sort.merge.Strict;
 
 import java.util.Arrays;
 

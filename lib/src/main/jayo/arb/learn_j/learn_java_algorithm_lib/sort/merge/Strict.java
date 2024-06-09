@@ -1,4 +1,4 @@
-package jayo.arb.learn_j.learn_java_algorithm.lib.sort.merge;
+package jayo.arb.learn_j.learn_java_algorithm_lib.sort.merge;
 
 import java.util.function.BiPredicate;
 
